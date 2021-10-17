@@ -44,7 +44,9 @@ namespace AfConfidence {
             metric_id: Column.Schema.int,
             metric_value: Column.Schema.float,
             model_id: Column.Schema.int,
-            ordinal_id: Column.Schema.int
+            ordinal_id: Column.Schema.int,
+            accessibility: Column.Schema.int,
+            ptm: Column.Schema.str,
         }
     };
     export type Schema = typeof Schema
