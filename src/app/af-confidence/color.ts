@@ -60,10 +60,9 @@ export function AfConfidenceColorTheme(ctx: ThemeDataContext, props: PD.Values<P
                     else if(color_choice === 'access')
                         return ConfidenceColors[confidenceScore[3]];
                     else if(color_choice === 'ptm')
-                        if (ConfidenceColors.has(confidenceScore[4]))
+                        if (confidenceScore[4] in ConfidenceColors)
                             return ConfidenceColors[confidenceScore[4]];
-                        else
-                            return ConfidenceColors['No Score'];
+                        else return ConfidenceColors['nan']
                     else return ConfidenceColors[confidenceScore[1]];
                 }
                 return ConfidenceColors['No Score'];
