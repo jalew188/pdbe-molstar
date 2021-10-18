@@ -21,7 +21,7 @@ import { arraySetAdd } from 'Molstar/mol-util/array';
 export { AfConfidence };
 
 type AfConfidence = PropertyWrapper<{
-    score: IndexedCustomProperty.Residue<[number, string]>,
+    score: IndexedCustomProperty.Residue<[number, string, number, string, string]>,
     category: string[]
 }| undefined>
 
@@ -123,8 +123,9 @@ export const AfConfidenceProvider: CustomModelProperty.Provider<AfConfidencePara
 function createScoreMapFromCif(modelData: Model,
     residueData: Table<typeof AfConfidence.Schema.local_metric_values>): AfConfidence['data'] | undefined {
 
-    const ret = new Map<ResidueIndex, [number, string]>();
-    const { label_asym_id, label_seq_id, metric_value, _rowCount } = residueData;
+    // [AF-confidence, confidence-level, accessibility, accessibility-level, ptm]
+    const ret = new Map<ResidueIndex, [number, string, number, string, string]>();
+    const { label_asym_id, label_seq_id, metric_value, accessibility, ptm, _rowCount } = residueData;
 
     const categories: string[] = [];
 
@@ -141,8 +142,22 @@ function createScoreMapFromCif(modelData: Model,
             confidencyCategory = 'Very high';
         }
 
-        ret.set(idx, [confidenceScore, confidencyCategory]);
+        const acc = accessibility.value(i)
+        let accessibilityCategory = 'Very high';
+        if(acc >= 1 && acc <= 3) {
+            accessibilityCategory = 'Median'
+        } else if (acc > 3 && acc <= 5) {
+            accessibilityCategory = 'Low'
+        } else if (acc > 5) {
+            accessibilityCategory = 'Very low'
+        }
+
+        ret.set(idx, [
+            confidenceScore, confidencyCategory, 
+            acc, accessibilityCategory, ptm.value(i)
+        ]);
         arraySetAdd(categories, confidencyCategory);
+        arraySetAdd(categories, ptm.value(i));
     }
 
     return {

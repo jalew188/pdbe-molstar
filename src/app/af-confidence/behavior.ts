@@ -30,7 +30,11 @@ export const AfConfidenceScore = PluginBehavior.create<{ autoAttach: boolean, sh
 
                         const se = StructureElement.Location.create(loci.structure, u, u.elements[OrderedSet.getAt(e.indices, 0)]);
                         const confidenceScore = AfConfidence.getConfidenceScore(se);
-                        return confidenceScore ? `Confidence score: ${confidenceScore[0]} <small>( ${confidenceScore[1]} )</small>` : `No confidence score`;
+                        //VIP hover text
+                        return confidenceScore ? `Confidence score: ${confidenceScore[0]} <small>( ${confidenceScore[1]} )</small>
+                        <br/>Accessibility: ${confidenceScore[2]} <small>( ${confidenceScore[3]} )</small>
+                        <br/>PTM: ${confidenceScore[4]}`
+                        : `No confidence score`;
 
                     default: return void 0;
                 }

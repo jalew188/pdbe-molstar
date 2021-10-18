@@ -13,7 +13,12 @@ const ConfidenceColors: any = {
     'Very low': Color.fromRgb(255, 125, 69), // VL
     'Low': Color.fromRgb(255, 219, 19), // L
     'Confident': Color.fromRgb(101, 203, 243), // M
+    'Median': Color.fromRgb(101, 203, 243), // M
     'Very high': Color.fromRgb(0, 83, 214), // H
+    'nan': Color.fromRgb(255, 125, 69),
+    'ub': Color.fromRgb(255, 219, 19),
+    'p': Color.fromRgb(101, 203, 243),
+    'p;p_reg': Color.fromRgb(0, 83, 214),
 }
 
 export const AfConfidenceColorThemeParams = {
