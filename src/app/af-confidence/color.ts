@@ -8,18 +8,29 @@ import { Color } from 'Molstar/mol-util/color';
 import { ParamDefinition as PD } from 'Molstar/mol-util/param-definition';
 import { CustomProperty } from 'Molstar/mol-model-props/common/custom-property';
 
-const ConfidenceColors: any = {
-    'No Score': Color.fromRgb(170, 170, 170), // not applicable
-    'Very low': Color.fromRgb(255, 125, 69), // VL
-    'Low': Color.fromRgb(255, 219, 19), // L
-    'Confident': Color.fromRgb(101, 203, 243), // M
-    'Median': Color.fromRgb(101, 203, 243), // M
-    'Very high': Color.fromRgb(0, 83, 214), // H
-    'nan': Color.fromRgb(255, 125, 69),
+
+const ConfidenceColors : any = {
+    'No Score': Color.fromRgb(170, 170, 170),
+    'Very low': Color.fromRgb(255, 125, 69),
+    'Low': Color.fromRgb(255, 219, 19),
+    'Confident': Color.fromRgb(101, 203, 243),
+    'Very high': Color.fromRgb(0, 83, 214),
+    'No neighbors': Color.fromRgb(143, 225, 162),
+    'Few neighbors': Color.fromRgb(56, 191, 167),
+    'Many neighbors': Color.fromRgb(54, 123, 195),
+    'Surrounded': Color.fromRgb(82, 69, 130),
+    'nan': Color.fromRgb(170, 170, 170),
+    'p': Color.fromRgb(0, 83, 214),
+    'p;p_reg': Color.fromRgb(103, 132, 255),
     'ub': Color.fromRgb(255, 219, 19),
-    'p': Color.fromRgb(101, 203, 243),
-    'p;p_reg': Color.fromRgb(0, 83, 214),
-}
+    'ac': Color.fromRgb(255, 160, 94),
+    'sm': Color.fromRgb(103, 132, 255),
+    'gl': Color.fromRgb(0, 209, 179),
+    'ga': Color.fromRgb(0, 127, 101),
+    'peptide': Color.fromRgb(2, 62, 138),
+    '[GlyGly(K)]': Color.fromRgb(255, 219, 19),
+    '[Oxidation(M)]': Color.fromRgb(173,216,230),
+};
 
 export const AfConfidenceColorThemeParams = {
     type: PD.MappedStatic('score', {
@@ -30,7 +41,7 @@ export const AfConfidenceColorThemeParams = {
     })
 };
 
-declare var color_choice: number //0=AF, 1=ACC, 2=PTM
+declare var color_choice: string
 
 type Params = typeof AfConfidenceColorThemeParams
 
@@ -44,12 +55,15 @@ export function AfConfidenceColorTheme(ctx: ThemeDataContext, props: PD.Values<P
             color = (location: Location) => {
                 if (StructureElement.Location.is(location)) {
                     const confidenceScore = getConfidenceScore(location);
-                    if(color_choice === 0)
+                    if(color_choice === 'af')
                         return ConfidenceColors[confidenceScore[1]];
-                    else if(color_choice === 1)
+                    else if(color_choice === 'access')
                         return ConfidenceColors[confidenceScore[3]];
-                    else if(color_choice === 2)
-                        return ConfidenceColors[confidenceScore[4]];
+                    else if(color_choice === 'ptm')
+                        if (ConfidenceColors.has(confidenceScore[4]))
+                            return ConfidenceColors[confidenceScore[4]];
+                        else
+                            return ConfidenceColors['No Score'];
                     else return ConfidenceColors[confidenceScore[1]];
                 }
                 return ConfidenceColors['No Score'];

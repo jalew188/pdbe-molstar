@@ -143,13 +143,13 @@ function createScoreMapFromCif(modelData: Model,
         }
 
         const acc = accessibility.value(i)
-        let accessibilityCategory = 'Very high';
-        if(acc >= 1 && acc <= 3) {
-            accessibilityCategory = 'Median'
-        } else if (acc > 3 && acc <= 5) {
-            accessibilityCategory = 'Low'
-        } else if (acc > 5) {
-            accessibilityCategory = 'Very low'
+        let accessibilityCategory = 'No neighbors';
+        if(acc >= 1 && acc <= 5) {
+            accessibilityCategory = 'Few neighbors';
+        } else if (acc > 5 && acc <= 10) {
+            accessibilityCategory = 'Many neighbors';
+        } else if (acc > 10) {
+            accessibilityCategory = 'Surrounded';
         }
 
         ret.set(idx, [
