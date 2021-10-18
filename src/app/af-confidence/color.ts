@@ -30,6 +30,8 @@ export const AfConfidenceColorThemeParams = {
     })
 };
 
+declare var color_choice: number //0=AF, 1=ACC, 2=PTM
+
 type Params = typeof AfConfidenceColorThemeParams
 
 export function AfConfidenceColorTheme(ctx: ThemeDataContext, props: PD.Values<Params>): ColorTheme<Params> {
@@ -42,7 +44,13 @@ export function AfConfidenceColorTheme(ctx: ThemeDataContext, props: PD.Values<P
             color = (location: Location) => {
                 if (StructureElement.Location.is(location)) {
                     const confidenceScore = getConfidenceScore(location);
-                    return ConfidenceColors[confidenceScore[1]];
+                    if(color_choice === 0)
+                        return ConfidenceColors[confidenceScore[1]];
+                    else if(color_choice === 1)
+                        return ConfidenceColors[confidenceScore[3]];
+                    else if(color_choice === 2)
+                        return ConfidenceColors[confidenceScore[4]];
+                    else return ConfidenceColors[confidenceScore[1]];
                 }
                 return ConfidenceColors['No Score'];
             };
