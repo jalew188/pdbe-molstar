@@ -30,6 +30,7 @@ const ConfidenceColors : any = {
     'peptide': Color.fromRgb(2, 62, 138),
     '[GlyGly(K)]': Color.fromRgb(255, 219, 19),
     '[Oxidation(M)]': Color.fromRgb(173,216,230),
+    'Other PTM': Color.fromRgb(200,200,200),
 };
 
 export const AfConfidenceColorThemeParams = {
@@ -62,7 +63,7 @@ export function AfConfidenceColorTheme(ctx: ThemeDataContext, props: PD.Values<P
                     else if(color_choice === 'ptm')
                         if (confidenceScore[4] in ConfidenceColors)
                             return ConfidenceColors[confidenceScore[4]];
-                        else return ConfidenceColors['nan']
+                        else return ConfidenceColors['Other PTM']
                     else return ConfidenceColors[confidenceScore[1]];
                 }
                 return ConfidenceColors['No Score'];
