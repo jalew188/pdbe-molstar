@@ -10,6 +10,7 @@ const molstarConfig = {
     node: { fs: 'empty' },
     entry: path.resolve(__dirname, `lib/index.js`),
     output: { filename: `${PKG_JSON.name}-plugin-${PKG_JSON.version}.js`, path: path.resolve(__dirname, `build/`) },
+    optimization: {minimize: false},
     module: {
         rules: [
             {
@@ -60,6 +61,7 @@ const molstarConfig = {
 const componentConfig = {
     entry: path.resolve(__dirname, `src/web-component/index.js`),
     output: { filename: `${PKG_JSON.name}-component-build-${PKG_JSON.version}.js`, path: path.resolve(__dirname, `build/`) },
+    optimization: {minimize: false},
     target: "web",
     devtool: "source-map",
     resolve: {
